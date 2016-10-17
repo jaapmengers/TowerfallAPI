@@ -1,0 +1,30 @@
+- Data collection van nodejs naar Python porten. Observable van inputs opleveren. https://pypi.python.org/pypi/ds4drv / https://github.com/signal11/hidapi
+- Input summarizen. Zie pybrain-practice/readDate.py. Observable van summarized data opleveren
+- Summarizd data in model voeren. Observable van speler prediction opleveren.
+
+- PNG's over stdin porten van nodejs naar Python. Observable van image opleveren
+- PNG's converten naar greyscale images. Observable van image opleveren
+- PNG converten naar vector van grijswaarden. Observable van vector[number opleveren]
+
+- Trainingdata Towerfall verzamelen. Via twitch op 26fps of hoger images binnentrekken en die annoteren.
+  - Opslaan als 1.png t/m n.png. In los bestand vector maken met 0 voor random scherm, 1 voor score scherm met 2 players, 2 voor 3 enz.
+- Uitlezen trainingdata. Dwz, alle PNG's in map lezen en door image conversion procedure halen. Annotatie bestand uitlezen. Combineren tot matrix van aantal features + y
+
+- Model trainen met pybrain-practice code. Model file opleveren
+
+- Twitch stream realtime uitlezen in Python. Keuze maken tussen linux pipes/stdin of subproces spawnen en daar 't resultaat van pakken.
+
+- Observable van dualshock inputs vertragen met gemiddelde twitch latency, paar seconden ofzo.
+
+- Als we een score scherm herkend hebben: bepalen welke player er gewonnen heeft door te kijken waar we een oranje pixel vinden. Gaat dat altijd werken met compressie etc?
+- Resultaat van score-bord scherm opleveren als observable[number]
+
+- Observables player recognition en score scherm combineren tot observable[player1, player2] waarbij p1 de winnaar is en p2 de verliezer
+
+- Procedure ontwikkelen om Speler om input te vragen als nog niet bekend is wie wie is. Controller laten trillen/knipperen(?) totdat player met shoulder buttons aangeeft welke player hij of zij is.
+
+
+v2:
+
+- Procedure ontwikkelen om te bepalen of de player informatie stale is. In dat geval player informatie wipen
+- Start scherm uit Twitch stream destileren. Vanaf dan player vragen om te identificeren.
