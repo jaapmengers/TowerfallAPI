@@ -67,24 +67,7 @@ def summarize_all_buttons(events):
     r1Summary = get_button_summary(map(lambda e: e[5], events))
     l2Summary = get_button_summary(map(lambda e: e[6], events))
     r2Summary = get_button_summary(map(lambda e: e[7], events))
-    return [
-    sqrSummary[0],
-    sqrSummary[1],
-    xSummary[0],
-    xSummary[1],
-    oSummary[0],
-    oSummary[1],
-    triSummary[0],
-    triSummary[1],
-    l1Summary[0],
-    l1Summary[1],
-    r1Summary[0],
-    r1Summary[1],
-    l2Summary[0],
-    l2Summary[1],
-    r2Summary[0],
-    r2Summary[1]
-    ]
+    return sqrSummary + xSummary + oSummary + triSummary + l1Summary + r1Summary + l2Summary + r2Summary
 
 events.buffer_with_count(2500) \
     .map(summarize_all_buttons) \
