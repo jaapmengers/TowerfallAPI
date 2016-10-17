@@ -1,4 +1,3 @@
-from __future__ import print_function
 import hid
 import time
 from rx import Observable
@@ -11,14 +10,14 @@ h.open(1356, 1476)
 
 def create_observable(observer):
     while True:
-        result = readInputs()
+        result = read_inputs()
         observer.on_next(result)
         time.sleep(1/250)
 
 def getbit(v, i):
     return (v >> i) & 1
 
-def readInputs():
+def read_inputs():
     d = h.read(10)
     buttons = d[5]
     shoulders = d[6]
@@ -35,14 +34,6 @@ def readInputs():
 
     return [sqr, x, o, tri, l1, r1, l2, r2]
 
-events = Observable.create(create_observable)
-
-
-# with open('data/jaap5.txt') as f:
-#     lines = [line.rstrip('\n') for line in f]
-#
-# events = Observable.from_(lines)
-#
 def average(items):
     if len(items) < 1:
         return 0.0
@@ -67,10 +58,12 @@ def summarize_all_buttons(events):
     r1Summary = get_button_summary(map(lambda e: e[5], events))
     l2Summary = get_button_summary(map(lambda e: e[6], events))
     r2Summary = get_button_summary(map(lambda e: e[7], events))
-    return sqrSummary + xSummary + oSummary + triSummary + l1Summary + r1Summary + l2Summary + r2Summary
 
-events.buffer_with_count(2500) \
-    .map(summarize_all_buttons) \
-    .subscribe(lambda e: print(e))
+    # return sqrSummary + xSummary + oSummary + triSummary + l1Summary + r1Summary + l2Summary + r2Summary
+    return l2Summary + r2Summary + xSummary + oSummary
 
-events.map(lambda e: e.split(',')).map(lambda e: int(e)).subscribe(lambda e: print(e))
+events = Observable.create(create_observable)
+
+def get_event_summary():
+    return events.buffer_with_count(2500) \
+            .map(summarize_all_buttons)
