@@ -1,6 +1,6 @@
 x Data collection van nodejs naar Python porten. Observable van inputs opleveren. https://pypi.python.org/pypi/ds4drv / https://github.com/signal11/hidapi
 x Input summarizen. Zie pybrain-practice/readDate.py. Observable van summarized data opleveren
-- Summarizd data in model voeren. Observable van speler prediction opleveren.
+x Summarizd data in model voeren. Observable van speler prediction opleveren.
 
 - PNG's over stdin porten van nodejs naar Python. Observable van image opleveren
 - PNG's converten naar greyscale images. Observable van image opleveren
