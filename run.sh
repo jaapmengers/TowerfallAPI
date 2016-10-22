@@ -1,0 +1,1 @@
+livestreamer --http-header Client-ID=jzkbprff40iqj646a697cyrvl0zt2m6 -O http://www.twitch.tv/tempo_storm best | ffmpeg -i - -vf fps=1 -f image2pipe -pix_fmt rgb24 -vcodec rawvideo - | python capture-images.py
