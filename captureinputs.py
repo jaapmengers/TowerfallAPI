@@ -6,13 +6,6 @@ from rx.core import AnonymousObservable
 from rx.concurrency import current_thread_scheduler
 
 h = hid.device()
-h.open(1356, 1476)
-
-def create_observable(observer):
-    while True:
-        result = read_inputs()
-        observer.on_next(result)
-        time.sleep(1/250)
 
 def getbit(v, i):
     return (v >> i) & 1
@@ -62,8 +55,10 @@ def summarize_all_buttons(events):
     # return sqrSummary + xSummary + oSummary + triSummary + l1Summary + r1Summary + l2Summary + r2Summary
     return l2Summary + r2Summary + xSummary + oSummary
 
-events = Observable.create(create_observable)
-
 def get_event_summary():
+    h.open(1356, 1476)
+
+    events = Observable.interval(4).map(lambda _: read_inputs())
+
     return events.buffer_with_count(2500) \
             .map(summarize_all_buttons)

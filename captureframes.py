@@ -4,22 +4,21 @@ from rx import Observable
 import sys
 import time
 
-def create_observable(observer):
-    while True:
-        time.sleep(1/5)
-        raw_image = sys.stdin.read(360*640*3)
+def run():
+    raw_image = sys.stdin.read(360*640*3)
 
-        image = np.fromstring(raw_image, dtype='uint8')
-        image = image.reshape((360,640,3))
+    image = np.fromstring(raw_image, dtype='uint8')
+    image = image.reshape((360,640,3))
 
-        if check_startscreen(image):
-            observer.on_next('startscreen')
-            continue
+    if check_startscreen(image):
+        return Observable.just('startscreen')
 
-        p1winner = check_winner(image, 207)
-        p2winner = check_winner(image, 357)
-        if p1winner or p2winner:
-            observer.on_next('winner is ' + ('p1' if p1winner else 'p2'))
+    p1winner = check_winner(image, 207)
+    p2winner = check_winner(image, 357)
+    if p1winner or p2winner:
+        return Observable.just('winner is ' + ('p1' if p1winner else 'p2'))
+
+    return Observable.empty()
 
 
 def check_startscreen(input):
@@ -39,7 +38,7 @@ def check_winner(input, x):
 
     return diff < 8
 
-events = Observable.create(create_observable)
+events = Observable.interval(200).flat_map(lambda _: run())
 
 def get_winners():
     return events
