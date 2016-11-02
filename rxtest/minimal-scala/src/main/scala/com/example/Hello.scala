@@ -2,6 +2,7 @@ package com.example
 
 import rx.lang.scala.Observable
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
 object Hello {
   sealed trait Prediction
@@ -26,9 +27,21 @@ object Hello {
       case _ => Observable.from(List(EndGame, StartGame))
     }
 
-    val gameCount = gameInfoObservable.collect {
+    val starts = gameInfoObservable.collect {
       case StartGame => StartGame
-    }.scan(0)((x, _) => x + 1)
+    }
+
+    val closings = gameInfoObservable.collect {
+      case EndGame => EndGame
+    }
+
+    val snor = predictions.slidingBuffer(starts)(_ => closings)
+
+    snor.subscribe(x => println(s"Results: ${x.length}"))
+
+//    val gameCount = gameInfoObservable.collect {
+//      case StartGame => StartGame
+//    }.scan(0)((x, _) => x + 1)
 
 
 //    val combined = predictions.combineLatest(gameCount)
