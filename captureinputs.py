@@ -62,3 +62,12 @@ def get_event_summary():
 
     return events.buffer_with_count(2500) \
             .map(summarize_all_buttons)
+
+def grab_inputs(path, i):
+    with open(path + '/' + str(i), 'w') as f:
+        inputs = read_inputs()
+        f.write(str(inputs))
+
+def record(path):
+    h.open(1356, 1476)
+    Observable.interval(4).subscribe(lambda i: grab_inputs(path, i))

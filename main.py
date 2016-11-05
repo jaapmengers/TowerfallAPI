@@ -5,15 +5,22 @@ import captureframes as cf
 import predict
 from rx import Observable
 
-winners = cf.get_winners() \
-    .distinct_until_changed() \
+# cf.record('frames')
 
-events = ci.get_event_summary() \
-    .map(predict.predict_player) \
-    .map(predict.player_for_score) \
+ci.record('inputs')
 
-winners.merge(events) \
-    .subscribe(lambda e: print(e))
+# game_events = cf.game_events() \
+#     .distinct_until_changed() \
+#
+# events = ci.get_event_summary() \
+#     .map(predict.predict_player) \
+#     .map(predict.player_for_score) \
+#
+# starts = game_events.filter(lambda e: e[0] == 'startscreen')
+# winners = game_events.filter(lambda e: e[0] == 'winner')
+#
+# game_events.merge(events) \
+#     .subscribe(lambda e: print(e))
 
 while 1:
     time.sleep(0.1)

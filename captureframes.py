@@ -11,12 +11,12 @@ def run():
     image = image.reshape((360,640,3))
 
     if check_startscreen(image):
-        return Observable.just('startscreen')
+        return Observable.just(('startscreen', ))
 
     p1winner = check_winner(image, 207)
     p2winner = check_winner(image, 357)
     if p1winner or p2winner:
-        return Observable.just('winner is ' + ('p1' if p1winner else 'p2'))
+        return Observable.just(('winner', ('p1' if p1winner else 'p2')))
 
     return Observable.empty()
 
@@ -38,7 +38,20 @@ def check_winner(input, x):
 
     return diff < 8
 
-events = Observable.interval(200).flat_map(lambda _: run())
+def grab_frame(path, i):
+    filename = str(i) + '.bmp'
+    print 'writing ' + filename
+    raw_image = sys.stdin.read(360*640*3)
+    image = np.fromstring(raw_image, dtype='uint8')
+    image = image.reshape((360,640,3))
 
-def get_winners():
+    Image.fromarray(image).save(path + '/' + filename)
+
+def record(path):
+    print 'hallo?'
+    return Observable.interval(10).subscribe(lambda i: grab_frame(path, i))
+
+# events = Observable.interval(200).flat_map(lambda _: run())
+
+def get_game_events():
     return events
