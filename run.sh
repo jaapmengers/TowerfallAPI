@@ -1,1 +1,1 @@
-livestreamer --http-header Client-ID=jzkbprff40iqj646a697cyrvl0zt2m6 -O http://www.twitch.tv/jaapem best 2>/dev/null | ffmpeg -i - -vf fps=5 -f image2pipe -pix_fmt rgb24 -vcodec rawvideo - 2>/dev/null | python main.py
+livestreamer --http-header Client-ID=jzkbprff40iqj646a697cyrvl0zt2m6 -O http://www.twitch.tv/jaapem best 2>/dev/null | ffmpeg -i - -vf fps=5 -f image2pipe -pix_fmt rgb24 -vcodec rawvideo - 2>/dev/null | python main.py 2>/dev/null
