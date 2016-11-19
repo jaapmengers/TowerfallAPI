@@ -1,5 +1,7 @@
 import hid
 import time
+import numpy as np
+
 from rx import Observable
 from itertools import groupby
 from rx.core import AnonymousObservable
@@ -40,20 +42,14 @@ def get_button_summary(events):
         if key == 1:
             ones.append(list(group))
 
-    return (len(ones), average(map(lambda o: len(o), ones)))
+    res = (len(ones), average(map(lambda o: len(o), ones)))
+    return res
 
 def summarize_all_buttons(events):
-    sqrSummary = get_button_summary(map(lambda e: e[0], events))
-    xSummary = get_button_summary(map(lambda e: e[1], events))
-    oSummary = get_button_summary(map(lambda e: e[2], events))
-    triSummary = get_button_summary(map(lambda e: e[3], events))
-    l1Summary = get_button_summary(map(lambda e: e[4], events))
-    r1Summary = get_button_summary(map(lambda e: e[5], events))
-    l2Summary = get_button_summary(map(lambda e: e[6], events))
-    r2Summary = get_button_summary(map(lambda e: e[7], events))
+    events_matrix = np.array(events)
+    res = map(lambda e: get_button_summary(events_matrix[:,e]), [0,1,2,3,4,5,6,7])
 
-    # return sqrSummary + xSummary + oSummary + triSummary + l1Summary + r1Summary + l2Summary + r2Summary
-    return l2Summary + r2Summary + xSummary + oSummary
+    return res[6] + res[7] + res[1] + res[2]
 
 def get_event_summary():
     h.open(1356, 1476)
